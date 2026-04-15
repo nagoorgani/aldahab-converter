@@ -1,0 +1,34 @@
+.rate-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+margin:30px 0;
+}
+
+.rate-card{
+background:linear-gradient(135deg,#009f2a,#2e7644);
+padding:25px;
+border-radius:14px;
+text-align:center;
+box-shadow:0 10px 25px rgba(0,0,0,0.12);
+transition:0.3s;
+color:#fff;
+}
+
+.rate-card:hover{
+transform:translateY(-6px);
+}
+
+.rate-card h3{
+margin:0;
+font-size:22px;
+color:#fec000;
+font-weight:700;
+}
+
+.rate-card p{
+font-size:32px;
+margin-top:15px;
+font-weight:bold;
+color:#fff;
+}
