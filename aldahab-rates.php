@@ -1,32 +1,28 @@
 <?php
 /*
-Plugin Name: Al Dahab Rates
-Description: Currency Exchange Rates Plugin
-Version: 1.0
-Author: Your Name
+Plugin Name: Al Dahab Currency Converter
+Description: AED Currency Converter Plugin
+Version: 2.0
+Author: Nagoorgani
 */
 
 if (!defined('ABSPATH')) exit;
 
-// Admin Menu
-add_action('admin_menu', 'aldahab_admin_menu');
-
-function aldahab_admin_menu() {
+/* ADMIN MENU */
+add_action('admin_menu', function () {
     add_menu_page(
-        'Exchange Rates',
-        'Exchange Rates',
+        'Currency Rates',
+        'Currency Rates',
         'manage_options',
         'aldahab-rates',
-        'aldahab_rates_page',
+        'aldahab_admin_page',
         'dashicons-money-alt',
         25
     );
-}
+});
 
-// Register Settings
-add_action('admin_init', 'aldahab_register_settings');
-
-function aldahab_register_settings() {
+/* SETTINGS */
+add_action('admin_init', function () {
 
 register_setting('aldahab_group', 'aldahab_rates');
 
@@ -44,7 +40,7 @@ function() use ($currency){
 $options = get_option('aldahab_rates');
 $value = isset($options[$currency]) ? $options[$currency] : '';
 
-echo "<input type='text' name='aldahab_rates[$currency]' value='$value' style='width:150px;'>";
+echo "<input type='text' name='aldahab_rates[$currency]' value='$value' />";
 
 },
 'aldahab-rates',
@@ -53,58 +49,67 @@ echo "<input type='text' name='aldahab_rates[$currency]' value='$value' style='w
 
 }
 
-}
+});
 
-// Admin Page
-function aldahab_rates_page(){
-?>
+/* ADMIN PAGE */
+function aldahab_admin_page(){ ?>
 <div class="wrap">
-<h1>Daily Exchange Rates</h1>
-
+<h1>Update Currency Rates</h1>
 <form method="post" action="options.php">
-
 <?php
 settings_fields('aldahab_group');
 do_settings_sections('aldahab-rates');
 submit_button('Save Rates');
 ?>
-
 </form>
 </div>
-<?php
-}
+<?php }
 
-// Frontend Shortcode
-add_shortcode('aldahab_rates', 'aldahab_show_rates');
-
-function aldahab_show_rates(){
+/* SHORTCODE */
+add_shortcode('aldahab_converter', function(){
 
 $options = get_option('aldahab_rates');
+$json = json_encode($options);
 
-$output = '<div class="rate-grid">';
+ob_start(); ?>
 
-if($options){
+<div class="aldahab-box">
 
-foreach($options as $currency => $rate){
+<h2>Currency Converter</h2>
 
-$output .= '
-<div class="rate-card">
-<h3>AED to '.$currency.'</h3>
-<p>'.$rate.'</p>
+<div class="tabs">
+<button class="tab active" data-type="transfer">Transfer Rate</button>
+<button class="tab" data-type="cash">Cash Rate</button>
 </div>
-';
 
-}
+<label>AMOUNT YOU WILL SEND</label>
+<div class="row">
+<input type="number" id="sendAmount" value="1000">
+<span>AED</span>
+</div>
 
-}
+<label>Select Currency</label>
+<select id="currency">
+<?php foreach($options as $code => $rate){ ?>
+<option value="<?php echo $code; ?>"><?php echo $code; ?></option>
+<?php } ?>
+</select>
 
-$output .= '</div>';
+<label>RECEIVER WILL GET</label>
+<div class="result" id="result">0</div>
 
-return $output;
+<p class="note">(Rates are indicative only and subject to change at any time.)</p>
 
-}
+</div>
 
-// Load CSS
+<script>
+var aldahabRates = <?php echo $json; ?>;
+</script>
+
+<?php return ob_get_clean(); });
+
+/* CSS JS */
 add_action('wp_enqueue_scripts', function(){
-wp_enqueue_style('aldahab-style', plugin_dir_url(__FILE__) . 'style.css');
+wp_enqueue_style('aldahab-style', plugin_dir_url(__FILE__).'style.css');
+wp_enqueue_script('aldahab-js', plugin_dir_url(__FILE__).'script.js', [], false, true);
 });

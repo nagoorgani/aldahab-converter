@@ -1,34 +1,109 @@
-.rate-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
-margin:30px 0;
+.aldahab-box{
+max-width:520px;
+margin:40px auto;
+background:#fff;
+padding:30px;
+border-radius:18px;
+box-shadow:0 10px 30px rgba(0,0,0,.12);
+font-family:Arial,sans-serif;
+border-top:6px solid #009f2a;
 }
 
-.rate-card{
-background:linear-gradient(135deg,#009f2a,#2e7644);
-padding:25px;
-border-radius:14px;
+.aldahab-box h2{
+margin:0 0 20px;
 text-align:center;
-box-shadow:0 10px 25px rgba(0,0,0,0.12);
-transition:0.3s;
-color:#fff;
+color:#2e7644;
+font-size:28px;
 }
 
-.rate-card:hover{
-transform:translateY(-6px);
+.tabs{
+display:flex;
+gap:10px;
+margin-bottom:20px;
 }
 
-.rate-card h3{
-margin:0;
-font-size:22px;
-color:#fec000;
+.tab{
+flex:1;
+padding:12px;
+border:none;
+cursor:pointer;
+background:#e9f7ee;
 font-weight:700;
+border-radius:10px;
+color:#2e7644;
 }
 
-.rate-card p{
-font-size:32px;
-margin-top:15px;
-font-weight:bold;
+.tab.active{
+background:#009f2a;
 color:#fff;
+}
+
+.aldahab-box label{
+display:block;
+margin:15px 0 8px;
+font-size:13px;
+font-weight:700;
+color:#444;
+letter-spacing:.5px;
+}
+
+.row{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.row input{
+flex:1;
+padding:14px;
+font-size:24px;
+border:2px solid #ddd;
+border-radius:10px;
+}
+
+.row span{
+background:#fec000;
+padding:14px 18px;
+border-radius:10px;
+font-weight:700;
+color:#000;
+}
+
+select{
+width:100%;
+padding:14px;
+font-size:18px;
+border:2px solid #ddd;
+border-radius:10px;
+}
+
+.result{
+margin-top:10px;
+padding:18px;
+background:#2e7644;
+color:#fff;
+font-size:32px;
+font-weight:700;
+text-align:center;
+border-radius:12px;
+}
+
+.note{
+font-size:12px;
+margin-top:18px;
+color:#777;
+text-align:center;
+}
+
+@media(max-width:600px){
+.aldahab-box{
+margin:20px;
+padding:20px;
+}
+.row input{
+font-size:20px;
+}
+.result{
+font-size:26px;
+}
 }
